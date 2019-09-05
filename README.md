@@ -8,7 +8,7 @@ This is a quick boilerplate for getting started with Azure Functions v2 and Depe
 
 #### 2. No more need `AccessKey` and `ConnectionString`
 
-#### 3. Smart condiguration (Configuration as a Code)
+#### 3. Smart configuration / options (Configuration as a Code)
 
 #### 4. Better cancellation support (Graceful shutdown)
 
