@@ -4,15 +4,15 @@ This is a quick boilerplate for getting started with Azure Functions v2 and Depe
 
 ## Goals
 
-### 1. Dependency Injection ALL THE THINGS
+#### 1. Dependency Injection ALL THE THINGS
 
-### 2. No more need `AccessKey` and `ConnectionString`
+#### 2. No more need `AccessKey` and `ConnectionString`
 
-### 3. Smart condiguration (Configuration as a Code)
+#### 3. Smart condiguration (Configuration as a Code)
 
-### 4. Better cancellation support (Graceful shutdown)
+#### 4. Better cancellation support (Graceful shutdown)
 
-### 5. Easier deployment template (CI/CD)
+#### 5. Easier deployment template (CI/CD)
 
 ## License
 
