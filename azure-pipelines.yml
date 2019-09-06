@@ -1,0 +1,34 @@
+trigger:
+- master
+
+variables:
+  BuildConfiguration: Release
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '2.2.x'
+  displayName: 'Install .NET Core 2.2.x SDK'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '-c $(BuildConfiguration)'
+  displayName: 'dotnet build'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '**/*.csproj'
+    arguments: '-c $(BuildConfiguration) -o $(Build.SourcesDirectory)/publish'
+  displayName: 'dotnet publish'
+
+- publish: publish
+  artifact: packages
+  displayName: 'Publish Artifacts'
