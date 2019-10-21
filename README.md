@@ -1,4 +1,4 @@
-# Azure Functions v2 Boilerplate
+# Azure Functions Boilerplate
 
 [![Build Status](https://dev.azure.com/shibayan/azure-functions-v2-boilerplate/_apis/build/status/Build%20azure-functions-v2-boilerplate?branchName=master)](https://dev.azure.com/shibayan/azure-functions-v2-boilerplate/_build/latest?definitionId=40&branchName=master)
 
