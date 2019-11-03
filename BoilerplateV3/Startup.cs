@@ -23,7 +23,10 @@ namespace Boilerplate
 
         public override void Configure(IFunctionsHostBuilder builder)
         {
+            builder.Services.AddHttpClient();
+
             builder.Services.AddSingleton<IGreetingService, GreetingService>();
+            builder.Services.AddSingleton<IHttpService, HttpService>();
 
             builder.Services.Configure<GreetingOptions>(Configuration.GetSection("Greeting"));
         }
