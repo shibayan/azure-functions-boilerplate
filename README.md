@@ -1,6 +1,6 @@
 # Azure Functions Boilerplate
 
-[![Build Status](https://dev.azure.com/shibayan/azure-functions-v2-boilerplate/_apis/build/status/Build%20azure-functions-v2-boilerplate?branchName=master)](https://dev.azure.com/shibayan/azure-functions-v2-boilerplate/_build/latest?definitionId=40&branchName=master)
+[![Build Status](https://dev.azure.com/shibayan/azure-functions-boilerplate/_apis/build/status/Build%20azure-functions-boilerplate?branchName=master)](https://dev.azure.com/shibayan/azure-functions-boilerplate/_build/latest?definitionId=44&branchName=master)
 
 This is a quick boilerplate for getting started with Azure Functions v2 and Dependency Injection.
 
