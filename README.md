@@ -18,4 +18,4 @@ This is a quick boilerplate for getting started with Azure Functions v2 and Depe
 
 ## License
 
-This project is licensed under the [MIT License](https://github.com/shibayan/azure-functions-v2-boilerplate/blob/master/LICENSE)
+This project is licensed under the [MIT License](https://github.com/shibayan/azure-functions-boilerplate/blob/master/LICENSE)
