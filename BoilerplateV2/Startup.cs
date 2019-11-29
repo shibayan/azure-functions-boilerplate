@@ -1,6 +1,7 @@
 ﻿using Boilerplate.Options;
 using Boilerplate.Services;
 
+using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,14 @@ namespace Boilerplate
 
             builder.Services.AddSingleton<IGreetingService, GreetingService>();
             builder.Services.AddSingleton<IHttpService, HttpService>();
+
+            builder.Services.AddSingleton(provider => new CosmosClient(Configuration["CosmosConnection"], new CosmosClientOptions
+            {
+                SerializerOptions = new CosmosSerializationOptions
+                {
+                    PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
+                }
+            }));
 
             builder.Services.Configure<GreetingOptions>(Configuration.GetSection("Greeting"));
         }
