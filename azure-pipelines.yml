@@ -7,7 +7,7 @@ variables:
 stages:
 - stage: Build_and_Publish
   jobs:
-  - job: Build_Function_V2
+  - job: Build_Functions
     strategy:
       matrix:
         function_v2:
