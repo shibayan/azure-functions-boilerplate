@@ -3,11 +3,18 @@ trigger:
 
 variables:
   BuildConfiguration: Release
+  DotnetSdkVersion: '3.1.x'
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: $(dotnetSdkVersion)
+  displayName: 'Install .NET Core SDK $(DotnetSdkVersion)'
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
