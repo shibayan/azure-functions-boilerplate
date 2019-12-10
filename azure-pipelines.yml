@@ -39,7 +39,3 @@ stages:
         projects: '**/$(projectName).csproj'
         arguments: '-c $(BuildConfiguration) -o $(Build.SourcesDirectory)/publish'
       displayName: 'dotnet publish'
-
-    - publish: publish
-      artifact: packages
-      displayName: 'Publish Artifacts'
