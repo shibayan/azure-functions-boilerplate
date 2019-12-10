@@ -3,33 +3,39 @@ trigger:
 
 variables:
   BuildConfiguration: Release
-  DotnetSdkVersion: '3.1.x'
 
-pool:
-  vmImage: 'ubuntu-latest'
+stages:
+- stage: Build_and_Publish
+  jobs:
+  - job: Build_Functions
+    strategy:
+      matrix:
+        function_v2:
+          dotnetVersion: '2.2.x'
+          projectName: 'BoilerplateV2'
+        function_v3:
+          dotnetVersion: '3.1.x'
+          projectName: 'BoilerplateV3'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: $(dotnetVersion)
+      displayName: 'Install .NET Core SDK $(dotnetVersion)'
 
-steps:
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: $(dotnetSdkVersion)
-  displayName: 'Install .NET Core SDK $(DotnetSdkVersion)'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/$(projectName).csproj'
+        arguments: '-c $(BuildConfiguration)'
+      displayName: 'dotnet build'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-    arguments: '-c $(BuildConfiguration)'
-  displayName: 'dotnet build'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: '**/*.csproj'
-    arguments: '-c $(BuildConfiguration) -o $(Build.SourcesDirectory)/publish'
-  displayName: 'dotnet publish'
-
-- publish: publish
-  artifact: packages
-  displayName: 'Publish Artifacts'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '**/$(projectName).csproj'
+        arguments: '-c $(BuildConfiguration) -o $(Build.SourcesDirectory)/publish'
+      displayName: 'dotnet publish'
