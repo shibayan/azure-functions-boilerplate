@@ -2,33 +2,26 @@ trigger:
 - master
 
 variables:
+  DotnetVersion: 3.1.x
   BuildConfiguration: Release
 
 stages:
 - stage: Build_and_Publish
   jobs:
   - job: Build_Functions
-    strategy:
-      matrix:
-        function_v2:
-          dotnetVersion: '2.2.x'
-          projectName: 'BoilerplateV2'
-        function_v3:
-          dotnetVersion: '3.1.x'
-          projectName: 'BoilerplateV3'
     pool:
       vmImage: 'ubuntu-latest'
     steps:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: $(dotnetVersion)
-      displayName: 'Install .NET Core SDK $(dotnetVersion)'
+        version: $(DotnetVersion)
+      displayName: 'Install .NET Core SDK $(DotnetVersion)'
 
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
-        projects: '**/$(projectName).csproj'
+        projects: '**/Boilerplate.csproj'
         arguments: '-c $(BuildConfiguration)'
       displayName: 'dotnet build'
 
@@ -36,6 +29,6 @@ stages:
       inputs:
         command: 'publish'
         publishWebProjects: false
-        projects: '**/$(projectName).csproj'
+        projects: '**/Boilerplate.csproj'
         arguments: '-c $(BuildConfiguration) -o $(Build.SourcesDirectory)/publish'
       displayName: 'dotnet publish'

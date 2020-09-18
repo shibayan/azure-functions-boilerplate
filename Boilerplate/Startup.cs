@@ -1,8 +1,13 @@
-﻿using Boilerplate.Options;
+﻿using System;
+
+using Azure.Identity;
+
+using Boilerplate.Options;
 using Boilerplate.Services;
 
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: FunctionsStartup(typeof(Boilerplate.Startup))]
@@ -29,6 +34,24 @@ namespace Boilerplate
             }));
 
             builder.Services.Configure<GreetingOptions>(context.Configuration.GetSection("Greeting"));
+        }
+
+        public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
+        {
+            var context = builder.GetContext();
+
+            if (!string.Equals(context.EnvironmentName, "Production", StringComparison.OrdinalIgnoreCase))
+            {
+                // For Production (Using Key Vault with Managed Identity)
+                var builtConfig = builder.ConfigurationBuilder.Build();
+
+                builder.ConfigurationBuilder.AddAzureKeyVault(new Uri(builtConfig["KeyVaultEndpoint"]), new DefaultAzureCredential());
+            }
+            else
+            {
+                // For Local development (Using User Secrets)
+                builder.ConfigurationBuilder.AddUserSecrets<Startup>();
+            }
         }
     }
 }
