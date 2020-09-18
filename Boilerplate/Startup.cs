@@ -40,7 +40,7 @@ namespace Boilerplate
         {
             var context = builder.GetContext();
 
-            if (!string.Equals(context.EnvironmentName, "Production", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(context.EnvironmentName, "Production", StringComparison.OrdinalIgnoreCase))
             {
                 // For Production (Using Key Vault with Managed Identity)
                 var builtConfig = builder.ConfigurationBuilder.Build();
