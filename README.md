@@ -3,7 +3,7 @@
 ![Build](https://github.com/shibayan/azure-functions-boilerplate/workflows/Build/badge.svg)
 [![Build Status](https://dev.azure.com/shibayan/azure-functions-boilerplate/_apis/build/status/Build%20azure-functions-boilerplate?branchName=master)](https://dev.azure.com/shibayan/azure-functions-boilerplate/_build/latest?definitionId=44&branchName=master)
 
-This is a quick boilerplate for getting started with Azure Functions v3 and Dependency Injection.
+This is a quick boilerplate for getting started with Azure Functions v4 and Dependency Injection.
 
 ## Goals
 

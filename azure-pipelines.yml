@@ -2,7 +2,7 @@ trigger:
 - master
 
 variables:
-  DotnetVersion: 3.1.x
+  DotnetVersion: 6.0.x
   BuildConfiguration: Release
 
 stages:

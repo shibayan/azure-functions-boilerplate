@@ -1,26 +1,25 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Boilerplate.Services
+namespace Boilerplate.Services;
+
+public interface IHttpService
 {
-    public interface IHttpService
+    Task<string> GetAsync(string url);
+}
+
+public class HttpService : IHttpService
+{
+    public HttpService(IHttpClientFactory httpClientFactory)
     {
-        Task<string> GetAsync(string url);
+        _httpClientFactory = httpClientFactory;
     }
 
-    public class HttpService : IHttpService
+    private readonly IHttpClientFactory _httpClientFactory;
+    public Task<string> GetAsync(string url)
     {
-        public HttpService(IHttpClientFactory httpClientFactory)
-        {
-            _httpClientFactory = httpClientFactory;
-        }
+        var httpClient = _httpClientFactory.CreateClient();
 
-        private readonly IHttpClientFactory _httpClientFactory;
-        public Task<string> GetAsync(string url)
-        {
-            var httpClient = _httpClientFactory.CreateClient();
-
-            return httpClient.GetStringAsync(url);
-        }
+        return httpClient.GetStringAsync(url);
     }
 }

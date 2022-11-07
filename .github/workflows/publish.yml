@@ -5,16 +5,16 @@ on:
     tags: [ v* ]
 
 env:
-  DOTNET_VERSION: 3.1.x
+  DOTNET_VERSION: 6.0.x
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Use .NET Core ${{ env.DOTNET_VERSION }}
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
