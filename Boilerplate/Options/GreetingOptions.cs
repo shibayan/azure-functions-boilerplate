@@ -1,7 +1,6 @@
-﻿namespace Boilerplate.Options
+﻿namespace Boilerplate.Options;
+
+public class GreetingOptions
 {
-    public class GreetingOptions
-    {
-        public string Prefix { get; set; }
-    }
+    public string Prefix { get; set; }
 }

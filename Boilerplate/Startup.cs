@@ -12,46 +12,45 @@ using Microsoft.Extensions.DependencyInjection;
 
 [assembly: FunctionsStartup(typeof(Boilerplate.Startup))]
 
-namespace Boilerplate
+namespace Boilerplate;
+
+public class Startup : FunctionsStartup
 {
-    public class Startup : FunctionsStartup
+    public override void Configure(IFunctionsHostBuilder builder)
     {
-        public override void Configure(IFunctionsHostBuilder builder)
+        var context = builder.GetContext();
+
+        builder.Services.AddHttpClient();
+
+        builder.Services.AddSingleton<IGreetingService, GreetingService>();
+        builder.Services.AddSingleton<IHttpService, HttpService>();
+
+        builder.Services.AddSingleton(provider => new CosmosClient(context.Configuration["CosmosConnection"], new CosmosClientOptions
         {
-            var context = builder.GetContext();
-
-            builder.Services.AddHttpClient();
-
-            builder.Services.AddSingleton<IGreetingService, GreetingService>();
-            builder.Services.AddSingleton<IHttpService, HttpService>();
-
-            builder.Services.AddSingleton(provider => new CosmosClient(context.Configuration["CosmosConnection"], new CosmosClientOptions
+            SerializerOptions = new CosmosSerializationOptions
             {
-                SerializerOptions = new CosmosSerializationOptions
-                {
-                    PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
-                }
-            }));
+                PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
+            }
+        }));
 
-            builder.Services.Configure<GreetingOptions>(context.Configuration.GetSection("Greeting"));
+        builder.Services.Configure<GreetingOptions>(context.Configuration.GetSection("Greeting"));
+    }
+
+    public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
+    {
+        var context = builder.GetContext();
+
+        if (string.Equals(context.EnvironmentName, "Production", StringComparison.OrdinalIgnoreCase))
+        {
+            // For Production (Using Key Vault with Managed Identity)
+            var builtConfig = builder.ConfigurationBuilder.Build();
+
+            builder.ConfigurationBuilder.AddAzureKeyVault(new Uri(builtConfig["KeyVaultEndpoint"]), new DefaultAzureCredential());
         }
-
-        public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
+        else
         {
-            var context = builder.GetContext();
-
-            if (string.Equals(context.EnvironmentName, "Production", StringComparison.OrdinalIgnoreCase))
-            {
-                // For Production (Using Key Vault with Managed Identity)
-                var builtConfig = builder.ConfigurationBuilder.Build();
-
-                builder.ConfigurationBuilder.AddAzureKeyVault(new Uri(builtConfig["KeyVaultEndpoint"]), new DefaultAzureCredential());
-            }
-            else
-            {
-                // For Local development (Using User Secrets)
-                builder.ConfigurationBuilder.AddUserSecrets<Startup>();
-            }
+            // For Local development (Using User Secrets)
+            builder.ConfigurationBuilder.AddUserSecrets<Startup>();
         }
     }
 }
